@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Setup
 title:        Zili Chen's personal webpage
 tagline:      Business Analytics, Data Mining, Data Visulization
@@ -14,3 +15,6 @@ gems:
 
 #Others
 markdown: kramdown
+=======
+theme: jekyll-theme-cayman
+
