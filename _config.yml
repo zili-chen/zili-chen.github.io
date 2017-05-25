@@ -1,0 +1,16 @@
+# Setup
+title:        Zili Chen's personal webpage
+tagline:      Business Analytics, Data Mining, Data Visulization
+baseurl:      ""
+paginate:     1
+
+# About/contact
+author:       Zili Chen
+url:        https://github.com.zili-chen/zili-chen.github.io
+
+# Gems
+gems:
+  - jekyll-paginate
+
+#Others
+markdown: kramdown
