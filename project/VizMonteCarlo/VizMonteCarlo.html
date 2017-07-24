@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+
+body {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line, 
+.square {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.line {
+  fill: none;
+  stroke: rgb(32, 93, 166);
+  opacity: 0.8;
+  stroke-width: 1.5px;
+}
+
+.boundline {
+  fill: rgb(225, 225, 234);
+  stroke-width: 1px;
+  opacity: 0.6;
+  }
+
+.constant {
+  stroke: #238b45;
+  stroke-width: 1px;
+}
+
+</style>
+<body>
+
+<script src="https://d3js.org/d3.v3.js"></script>
+<script>
+
+function vizMonteCarlo() {
+  var margin = {top: 75, right: 75, bottom: 75, left: 75},
+    width = 550;
+    height = 550 ;
+
+  var numSamples = 0,
+      iterationNumber = 4000;
+
+
+  var circleScale = d3.scale.linear()
+                            .domain([0,1])
+                            .range([margin.left, margin.left + width]);
+
+  var x = d3.scale.linear()
+                  .domain([1,iterationNumber])
+                  .range([0, width]);
+
+  var y = d3.scale.linear()
+                  .domain([2.8, 3.5])
+                  .range([height, 0]);
+
+  var xAxis = d3.svg.axis()
+                    .scale(x)
+                    .tickFormat(d3.format(".2s"))
+                    .orient("bottom");
+
+  var yAxis = d3.svg.axis()
+                    .scale(y)
+                    .orient("left");
+
+    
+  // construct svg container
+  var svg = d3.select("body").append("svg")
+                             .attr("width", width + margin.left + margin.right)
+                             .attr("height", height + margin.top + margin.bottom)
+                             .attr("display", "block")
+                             ;
+    
+    
+  // draw arc
+  var arc = d3.svg.arc()
+    .innerRadius(width)
+    .outerRadius(width + 1)
+    .startAngle(0)
+    .endAngle(Math.PI / 2);
+
+  svg.append("path")
+    .attr("d", arc)
+    .attr("transform", "translate(" + margin.left + "," + (margin.top + height) + ")")
+    .style("stroke", "rgb(0,0,0)")
+    .style("opacity", 0.2)
+    
+
+  var graph = svg.append("g")
+    .attr("width", width)
+    .attr("height", height)
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    
+  // draw the line y = \pi
+  graph.append("line")
+    .attr("class", "constant")
+    .attr("x1",0)
+    .attr("y1",y(Math.PI))
+    .attr("x2",x(iterationNumber))
+    .attr("y2",y(Math.PI));
+
+  graph.append("text")
+    .attr("x",width + 5)
+    .attr("y",y(Math.PI))
+    .style("font-size","15px")
+    .style("fill","#238b45")
+    .text("π");
+
+    
+  // draw x axis
+  graph.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height + ")")
+    .call(xAxis)
+    .append("text")
+    .attr("x", width)
+    .style("font-weight", "bold")
+    .style("text-anchor", "middle")
+    .text("Number of iterations");
+   
+    
+  // draw y axis
+  graph.append("g")
+    .attr("class", "y axis")
+    .call(yAxis)
+    .append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 7)
+    .style("text-anchor", "middle")
+    .style("font-weight", "bold")
+    .text("Value");
+
+
+  // draw sample circles
+  var gcirlces = svg.append("g")
+    .style("opacity", 0.3)
+    .attr("transform", "translate(0," + (height + margin.top + margin.bottom) + ")");
+    
+  var line = d3.svg.line()
+    .x(function(d) { return x(d.x); })
+    .y(function(d) { return y(d.y); });
+
+  var upper = d3.svg.line()
+    .x(function(d) { return x(d.x); })
+    .y(function(d) { return y(d.upper)});
+
+  var lower = d3.svg.line()
+    .x(function(d) { return x(d.x); })
+    .y(function(d) { return y(d.lower)});
+    
+  var data = []
+    
+    
+  var path = graph.append("path")
+    .datum(data)
+    .attr("class", "line")
+    .attr("d", line);
+    
+  // draw upper bound
+  var upperBound = graph.append("path")
+    .datum(data)
+    .attr("class", "boundline")
+    .attr("d", upper);
+
+  //draw lower bound
+  var lowerBound = graph.append("path")
+    .datum(data)
+    .attr("class", "boundline")
+    .attr("d", lower);
+    
+  var ins = 0,
+      outs = 0,
+      piEstimated = 0;
+
+    
+    
+  d3.timer(function(d,i) {
+
+    var cx = Math.random(),
+        cy = Math.random();
+
+    if ((Math.pow(cx, 2) + Math.pow(cy, 2))< 1) 
+    {
+      ins +=1;
+      var color = "#66bd63"
+    }
+    else 
+    {
+      outs +=1;
+      var color = "#f46d43"
+    };
+    
+    piEstimated = (ins / (ins + outs)) * 4; 
+    
+    data.push({
+      x: ins + outs,
+      y: piEstimated,
+      upper: Math.PI + 2 / Math.sqrt(ins + outs),
+      lower: Math.PI - 2 / Math.sqrt(ins + outs)
+    });
+    
+    
+    upperBound.datum(data).attr("d", upper);
+    lowerBound.datum(data).attr("d", lower);
+    path.datum(data).attr("d", line);
+
+    gcirlces.append("circle")
+      .attr("cx",circleScale(cx))
+      .attr("cy",-circleScale(cy))
+      .attr("r",3)
+      .style("fill",color);
+    
+    return ++numSamples > iterationNumber;
+  });
+
+  d3.select(self.frameElement).style("height", (height + margin.top + margin.bottom) + "px");
+  }
+
+vizMonteCarlo()
+</script>
+
+<div style="text-align: center">
+  <button  type="button" onclick="vizMonteCarlo()">
+    Run VizMonteCarlo
+  </button>
+</div>
+
+
+
+

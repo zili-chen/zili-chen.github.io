@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  
+  <head>
+  <meta charset="UTF-8">
+  <title>Zili Chen's personal webpage</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#157878">
+  <link rel="stylesheet" href="/css/normalize.css">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/css/cayman.css">
+  <script type="text/javascript" async
+  		src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+</head>
+
+  <body>
+    <section class="page-header">
+  <h1 class="project-name">Hi, I am Zili Chen</h1>
+  <h2 class="project-tagline">  Business Analytics, Data Mining, Data Visulization </h2>
+</section>
+
+    <section class="main-content">
+      
+      <h1 id="viz--monte-carlo">Viz  Monte Carlo</h1>
+
+<p>This is part of my course project for undergraduate course <em>Computational condensed matter physics</em>.</p>
+
+<p>In short, Monte Carlo methods is one reflection of <strong>the Law of Large Numbers</strong>, which indicates that <strong>a large number of randomness could present deterministic behaviour in principle</strong>. For example, from kinetic theory of gases, we  know that a gas is a great amount of particles, whose motions are in nature stochastic, due to colisions with each other and with the walls of container. However, a gas may have stable macroscopic properties, such as pressure, temperature.</p>
+
+<p>Monte Carlo methods are widely used in all computation-related scientific areas. Two common usages are simulation and integration.</p>
+
+<iframe src="../../../../project/VizMonteCarlo/VizMonteCarlo.html" scrolling="no" style="height:100%;width:100%" frameborder="0"> </iframe>
+
+<p>The above figure visulizes a classical application of Monte Carlo method to computing <script type="math/tex">\pi</script>.</p>
+
+<p>Denote the indicator random variable of the sector in the figure by <script type="math/tex">X</script> and its expectation <script type="math/tex">\mu = \frac{\pi}{4}</script>. We perform independent experiments <script type="math/tex">n</script> times. <script type="math/tex">\pi</script> can be approximated as</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align}\pi  &=  4 \times \mathbb{E}(X)\\ &= \frac{4}{n} \times \mathbb{E}(X_1 + \cdots X_n) \\&\approx 4 \times \frac{\#\{ \mbox{points inside circle}\}}{\#\{ \mbox{points inside circle}\} + \#\{ \mbox{points outside circle}\}} \end{align} %]]></script>
+
+<p>Then the standard deviation of the approximation error can be bounded above by <script type="math/tex">\sigma_{error} = \frac{4}{\sqrt{n}} \times \sigma_X = \frac{4}{n} \sqrt{p(1-p)} \le\frac{2}{\sqrt{n}}</script> , as illustrated by the boundary of two swept areas in the above figure.</p>
+
+<p>Despite the fact that Monte Carlo method is free from <strong>the Curse of Dimensionality</strong>, from error estimate, we know that the rate of convergence (in probablistic sense) Monte Carlo method is quite slow, in the order of <script type="math/tex">O(n^{-\frac{1}{2}})</script>, which migth be too slow in many practial applications.</p>
+
+
+
+      <footer class="site-footer">
+  <span class="site-footer-owner">This webpage is maintained by <a href= http://localhost:4000> zili chen </a>.</span>
+</footer>
+
+
+    </section>
+
+  </body>
+</html>
