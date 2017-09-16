@@ -23,7 +23,9 @@ $$\begin{align}\pi  &=  4 \times \mathbb{E}(X)\\ &= \frac{4}{n} \times \mathbb{E
 
 Then the standard deviation of the approximation error can be bounded above by $$\sigma_{error} = \frac{4}{\sqrt{n}} \times \sigma_X = \frac{4}{n} \sqrt{p(1-p)} \le\frac{2}{\sqrt{n}}$$ , as illustrated by the boundary of two swept areas in the above figure.
 
-Despite the fact that Monte Carlo method is free from **the Curse of Dimensionality**, from error estimate, we know that the rate of convergence (in probablistic sense) Monte Carlo method is quite slow, in the order of $$O(n^{-\frac{1}{2}})$$, which migth be too slow in many practial applications.
+Despite the fact that Monte Carlo method is free from **the Curse of Dimensionality**, from error estimate, we know that the rate of convergence (in probablistic sense) of Monte Carlo method is quite slow, in the order of $$O(n^{-\frac{1}{2}})$$, which migth be too slow in many practial applications.
+
+
 
 
 
